@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-
+dotenv.config();
 export default (req, res, next) => {
     let api_key = req.body.api_key;
 

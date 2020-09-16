@@ -14,7 +14,7 @@ app.use('/api/',routes);
 
 app.get('/',(req, res, next) => res.status(200).send({
   status : 200,
-  message : 'Welcome to Rodriguez Nyiringabo API, read the readme file to learn how to use it',
+  message : 'Welcome to Rodriguez Nyiringabo API',
 }));
 
 app.use('**', (req, res) => res.status(404).send({

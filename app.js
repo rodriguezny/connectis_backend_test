@@ -5,11 +5,12 @@ import routes from './routes/';
 
 const app = express();
 
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 
 
 //initializing Routes
-//app.use('/api/',routes);
+app.use('/api/',routes);
 
 app.get('/',(req, res, next) => res.status(200).send({
   status : 200,

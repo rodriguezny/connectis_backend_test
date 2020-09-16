@@ -28,7 +28,8 @@ const utilisateurCtrl = {
       })
       .catch(error => res.status(500).json({ error })); 
         }else {
-
+          res.status(401).json({status : 401, message:'API_KEY non valide'
+          });
         }
     },
 
@@ -61,13 +62,13 @@ const utilisateurCtrl = {
     deleteUser: (req, res, next) => {
         utilisateur.destroy({
             where: {
-              phone: req.body.phone
+              id: req.body.id
             }
           }).then(() => res.status(200).json({message: 'user deleted successfully'}))
           .catch(error => res.status(500).json({error}));
     },
 
-    modifyUser: (req, res, next) {
+    modifyUser: (req, res, next) => {
         Utilisatuer.update({ nom: req.body.nom,
                  prenom: req.body.prenom,
                 dob: req.body.dob,
@@ -76,7 +77,7 @@ const utilisateurCtrl = {
             },
                 {
                 where: {
-                    telephone: req.body.telephone
+                    id: req.body.id
                 }
           }).the(() => res.status(200).json({status: 200, msg: 'user modified successfully'}))
           .catch(error => res.status(500).json({status: 500, error: error}));
@@ -85,7 +86,7 @@ const utilisateurCtrl = {
 }
 
 
-const sendToken = (res, phone, status, message) {
+const sendToken = (res, phone, status, message) => {
     const token = jwt.sign(
         {
           phone : phone,

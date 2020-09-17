@@ -10,23 +10,24 @@ const utilisateurCtrl = {
     login: (req, res, next) => {
         const api_key = req.body.api_key;
         if (api_key == process.env.API_KEY) {
-            User.findOne({
-                where: {phone: req.body.phone} 
+            let phone = req.body.telephone;
+            utilisateur.findOne({
+              where: {telephone: phone} 
             })
             .then(utilisateur => {
-        if (!utilisateur) {
-          return res.status(401).json({ error: 'Utilisateur non trouvé !' });
-        }
-        bcrypt.compare(req.body.password, utilisateur.password)
-          .then(valid => {
-            if (!valid) {
-              return res.status(401).json({ error: 'Mot de passe incorrect !' });
-            }
-            sendToken(res, req.body.phone, 200, 'User logged in successfully');
-          })
-          .catch(error => res.status(500).json({ error }));
-      })
-      .catch(error => res.status(500).json({ error })); 
+              if (!utilisateur) {
+                return res.status(401).json({ error: 'Utilisateur non trouvé !' });
+              }
+              bcrypt.compare(req.body.password, utilisateur.password)
+              .then(valid => {
+                if (!valid) {
+                  return res.status(401).json({ error: 'Mot de passe incorrect !' });
+                } 
+                sendToken(res, phone, 200, 'User logged in successfully');
+              })
+              .catch(error => res.status(500).json({ error }));
+            })
+            .catch(error => res.status(500).json({ error })); 
         }else {
           res.status(401).json({status : 401, message:'API_KEY non valide'
           });
@@ -69,7 +70,7 @@ const utilisateurCtrl = {
     },
 
     modifyUser: (req, res, next) => {
-        Utilisatuer.update({ nom: req.body.nom,
+        Utilisateur.update({ nom: req.body.nom,
                  prenom: req.body.prenom,
                 dob: req.body.dob,
                 email: req.body.email,
@@ -98,7 +99,7 @@ const sendToken = (res, phone, status, message) => {
       )
       return res.status(status).json({
         status : status,
-        message : messsage,
+        message : message,
         data : {token : token}
       })
 }
